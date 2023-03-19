@@ -4,7 +4,6 @@ let detector;
 let detection = []
 
 function preload() {
-  img = loadImage('images/bird.jpg');
   detector = ml5.objectDetector('cocossd')
 }
 
@@ -23,6 +22,22 @@ function setup() {
   video.size(640, 480)
   video.hide()
   detector.detect(video, gotDetections)
+
+  var button = createButton("Read object");
+  button.mousePressed(speak);
+  speech = new p5.Speech(undefined, voicesReady);
+  function voicesReady() {
+    console.log(speech.voices)
+  }
+}
+
+function speak() {
+  let voices = speech.voices
+  let voice = random(voices)
+  speech.setVoice(voice.name)
+  for(let i = 0; i < detection.length; i++) {
+    speech.speak(detection[i].label);
+  }
 }
 
 function draw() {
