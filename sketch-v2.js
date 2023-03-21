@@ -21,7 +21,9 @@ function setup() {
   video = createCapture(VIDEO)
   video.size(640, 480)
   video.hide()
-  detector.detect(video, gotDetections)
+  video.elt.addEventListener('loadeddata', function() {
+    detector.detect(video, gotDetections)
+  })
 
   var button = createButton("Read object");
   button.mousePressed(speak);
